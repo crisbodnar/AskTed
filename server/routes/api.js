@@ -1,30 +1,28 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
-var yelp = require('node-yelp');
+var Yelp = require('yelp');
 
 var configureYelp = function(searchString, callback) {
 
-	//Use the API keys here
-	var client = yelp.createClient({
-  		oauth: {
-    	"consumer_key": "aviPUJyViflvgJ8XQ9NRlQ",
-    	"consumer_secret": "bo_Cj8tbZ-WhrbbnJTvmMDHFxqU",
-    	"token": "UaasXYXCJu7dmEgVPwTgRGtY6AJ9rZDL",
-    	"token_secret": "KM1VTKcmhXZ-CMnJcYK2vTwQp5c"
-  		}
-	});
+    var yelp = new Yelp({
+      consumer_key: 'aviPUJyViflvgJ8XQ9NRlQ',
+      consumer_secret: 'bo_Cj8tbZ-WhrbbnJTvmMDHFxqU',
+      token: 'UaasXYXCJu7dmEgVPwTgRGtY6AJ9rZDL',
+      token_secret: 'KM1VTKcmhXZ-CMnJcYK2vTwQp5c',
+    });
 
-	client.search({
-  		terms: searchString,
-  		location: "Manchester"
+	yelp.search({
+  		term: searchString,
+  		location: "Manchester, UK",
+
 	}).then(function (data) {
   		//console.log(data);
   		callback(data);  
 	});
 }
 
-var sendMessage = function(){
+var sendMessage = function(result){
 		// Twilio Credentials 
 	var accountSid = 'AC49beb2b0ce8058005d7db2504507a09f'; 
 	var authToken = '86bafd16b3b70d18e85e051fefddb6f1'; 
@@ -33,10 +31,15 @@ var sendMessage = function(){
 	var twilio = require('twilio'); 
 	var client = new twilio.RestClient(accountSid, authToken); 
 	 
+    var text = 'Here are a couple of restaurants you might like: ';
+           text += '\n' + '1.' + result[0].name + ' ' + result[0].location.display_address[0];
+           text += '\n' + '2.' + result[1].name + ' ' + result[0].location.display_address[0];
+
+
 	client.sms.messages.create({
 		to: '+447733645724',  
 		from: '+441376350104',
-		body: 'Merge fraiere!!!!'     
+		body: text
 	}, function(err, message) { 
 		if(!err)
 			console.log(message.sid);
@@ -62,6 +65,19 @@ var cleverBot = function(searchString, callback){
 	});
 }
 
+var processYelpData = function(data){
+    var result = []
+    for(var index = 0; index < 3 && index < data.length; index++){
+        var restaurant = {};
+        restaurant.rating = data[index].rating;
+        restaurant.name = data[index].name;
+        restaurant.location = data[index].location;
+        console.log(restaurant.location);
+        result.push(restaurant);
+    }
+    return result;
+};
+
 router.post('/yelp', function(req, res, next) {
   var searchString = req.body.search;
   console.log(searchString);
@@ -69,11 +85,22 @@ router.post('/yelp', function(req, res, next) {
   searchString.replace(' ', '+');
 
   configureYelp(searchString, function(data){
-  	//sendMessage();
-  	cleverBot(searchString, function(response){
+    console.log(data.businesses);
+    yelpData = processYelpData(data.businesses);
+    console.log('++++++++++++++++++++++++++++++');
+    sendMessage(yelpData);
+    //console.log(yelpData);
+    res.json(yelpData[0]);
+  });
+});
+
+router.post('/bot', function(req, res, next){
+    var searchString = req.body.search;
+    console.log(searchString);
+
+    cleverBot(searchString, function(response){
         res.json({answer: response});
     });
-  });
 });
 
 module.exports = router;
