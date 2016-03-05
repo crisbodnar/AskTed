@@ -45,34 +45,34 @@ var sendMessage = function(){
 	});
 }
 
-var cleverBot = function(searchString){
+var cleverBot = function(searchString, callback){
 	var cleverbot = require('cleverbot.io');
 	bot = new cleverbot("i34acQJ3CVN81j5S", "9DkDuNrnlfqbgUUDGr253nzzElaJjBal");
 
 	bot.setNick("sessionname");
 
-	searchString = "Do you want coffee?";
 
 	//bot is created here
 	bot.create(function (err, session) {
 		//Ask the bot something
   		bot.ask(searchString, function (err, response) {
-  			console.log("The AI response: " + response); 
+  			console.log("The AI response: " + response);
+            callback(response); 
 		});
 	});
 }
 
 router.post('/yelp', function(req, res, next) {
-
-  var searchString = req.query.search;
+  var searchString = req.body.search;
   console.log(searchString);
   //replace spaces with +
   searchString.replace(' ', '+');
 
   configureYelp(searchString, function(data){
-  	res.json(data);
   	//sendMessage();
-  	cleverBot(searchString);
+  	cleverBot(searchString, function(response){
+        res.json({answer: response});
+    });
   });
 });
 

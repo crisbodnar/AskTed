@@ -1,5 +1,9 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    div(ng-app="listen", ng-controller="ListenController as listenCtrl")
+        div.btn.btn-danger(type="button", ng-click="listen()") listen
+
+    //load angular
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js')
+    script(src='/javascripts/listen.js')
