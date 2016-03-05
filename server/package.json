@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "body-parser": "~1.13.2",
+    "cleverbot.io": "^1.0.4",
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
     "express": "~4.13.1",

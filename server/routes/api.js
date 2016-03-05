@@ -45,6 +45,23 @@ var sendMessage = function(){
 	});
 }
 
+var cleverBot = function(searchString){
+	var cleverbot = require('cleverbot.io');
+	bot = new cleverbot("i34acQJ3CVN81j5S", "9DkDuNrnlfqbgUUDGr253nzzElaJjBal");
+
+	bot.setNick("sessionname");
+
+	searchString = "Do you want coffee?";
+
+	//bot is created here
+	bot.create(function (err, session) {
+		//Ask the bot something
+  		bot.ask(searchString, function (err, response) {
+  			console.log("The AI response: " + response); 
+		});
+	});
+}
+
 router.post('/yelp', function(req, res, next) {
 
   var searchString = req.query.search;
@@ -54,7 +71,8 @@ router.post('/yelp', function(req, res, next) {
 
   configureYelp(searchString, function(data){
   	res.json(data);
-  	sendMessage();
+  	//sendMessage();
+  	cleverBot(searchString);
   });
 });
 
