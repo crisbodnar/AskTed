@@ -20,30 +20,30 @@ var configureYelp = function(searchString, callback) {
   		location: "Manchester"
 	}).then(function (data) {
   		//console.log(data);
-  		callback(data);  
+  		callback(data);
 	});
-}
+};
 
 var sendMessage = function(){
-		// Twilio Credentials 
-	var accountSid = 'AC49beb2b0ce8058005d7db2504507a09f'; 
-	var authToken = '86bafd16b3b70d18e85e051fefddb6f1'; 
-	 
+		// Twilio Credentials
+	var accountSid = 'AC49beb2b0ce8058005d7db2504507a09f';
+	var authToken = '86bafd16b3b70d18e85e051fefddb6f1';
+
 	//require the Twilio module and create a REST client
-	var twilio = require('twilio'); 
-	var client = new twilio.RestClient(accountSid, authToken); 
-	 
+	var twilio = require('twilio');
+	var client = new twilio.RestClient(accountSid, authToken);
+
 	client.sms.messages.create({
-		to: '+447733645724',  
+		to: '+447733645724',
 		from: '+441376350104',
-		body: 'Merge fraiere!!!!'     
-	}, function(err, message) { 
+		body: 'Merge fraiere!!!!'
+	}, function(err, message) {
 		if(!err)
 			console.log(message.sid);
 		else
-			console.log(err); 
+			console.log(err);
 	});
-}
+};
 
 var cleverBot = function(searchString, callback){
 	var cleverbot = require('cleverbot.io');
@@ -57,10 +57,10 @@ var cleverBot = function(searchString, callback){
 		//Ask the bot something
   		bot.ask(searchString, function (err, response) {
   			console.log("The AI response: " + response);
-            callback(response); 
+            callback(response);
 		});
 	});
-}
+};
 
 router.post('/yelp', function(req, res, next) {
   var searchString = req.body.search;
