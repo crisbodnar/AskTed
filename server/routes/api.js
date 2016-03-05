@@ -19,20 +19,42 @@ var configureYelp = function(searchString, callback) {
   		terms: searchString,
   		location: "Manchester"
 	}).then(function (data) {
-  		console.log(data);
+  		//console.log(data);
   		callback(data);  
+	});
+}
+
+var sendMessage = function(){
+		// Twilio Credentials 
+	var accountSid = 'AC49beb2b0ce8058005d7db2504507a09f'; 
+	var authToken = '86bafd16b3b70d18e85e051fefddb6f1'; 
+	 
+	//require the Twilio module and create a REST client
+	var twilio = require('twilio'); 
+	var client = new twilio.RestClient(accountSid, authToken); 
+	 
+	client.sms.messages.create({
+		to: '+447733645724',  
+		from: '+441376350104',
+		body: 'Merge fraiere!!!!'     
+	}, function(err, message) { 
+		if(!err)
+			console.log(message.sid);
+		else
+			console.log(err); 
 	});
 }
 
 router.post('/yelp', function(req, res, next) {
 
-  var searchString = req.query.fiction;
+  var searchString = req.query.search;
   console.log(searchString);
   //replace spaces with +
   searchString.replace(' ', '+');
 
   configureYelp(searchString, function(data){
   	res.json(data);
+  	sendMessage();
   });
 });
 
