@@ -65,7 +65,7 @@ var cleverBot = function(searchString, callback){
 };
 
 var processYelpData = function(data){
-    var result = []
+    var result = [];
     for(var index = 0; index < 3 && index < data.length; index++){
         var restaurant = {};
         restaurant.rating = data[index].rating;
