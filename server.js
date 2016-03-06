@@ -54,7 +54,7 @@ fs.watchFile('response.txt', function(current, previous) {
             // Get the response body (JSON parsed or jQuery object for XMLs)
             rsp = response.getBody();
             if (response.getBody().answer) {
-                rsp = response.getBody().answer.replace("'", "\\'");
+                rsp = response.getBody().answer.replace("\'", "'");
             }
             console.log(rsp);
             var reply;
