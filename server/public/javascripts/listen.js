@@ -7,7 +7,7 @@ app.controller("ListenController", ['$scope', '$http', function($scope, $http){
 	$scope.listen = function(){
       console.log('Listen function');
       //send post request to get the file and its content
-      $http.post('http://0571a5ea.ngrok.io/listen', {})
+      $http.post('http://8e5b26b4.ngrok.io/listen', {})
         .success(function(data, status){
           console.log(data);
           console.log('Listen send OK');
