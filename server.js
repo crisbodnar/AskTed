@@ -42,32 +42,14 @@ fs.watchFile('response.txt', function(current, previous) {
         content = data;
         var url_path = 'api/bot';
         if (content.indexOf("drink") > -1 || content.indexOf("food") > -1) {
-            url_path = 'api/yelp';
+            if (content != "what\'s your favourite food" && content != "what is your favourite food") {
+                url_path = 'api/yelp';
+            }
         }
         console.log(data);
         var requestify = require('requestify');
-
-        requestify.post('http://6f1931b9.ngrok.io/'+url_path, {
-            search: content
-        })
-        .then(function(response) {
-            // Get the response body (JSON parsed or jQuery object for XMLs)
-            rsp = response.getBody();
-            if (response.getBody().answer) {
-                rsp = response.getBody().answer.replace("\'", "'");
-            }
-            console.log(rsp);
-            var reply;
-            if (url_path === 'api/bot') {
-                reply = 'say "'+rsp+'"';
-            }
-            else if (url_path === 'api/yelp') {
-                reply = 'say "The best restaurant for you is '+rsp.name+' at '+rsp.location.display_address[0]+'"';
-            }
-            //console.log("hello");
-            //console.log(response);
-            console.log(reply);
-            console.log(rsp);
+        if (content == "what\'s your name" || content == "what is your name") {
+            reply = 'say "My name is Nigel."';
             exec(reply, function(error, stdout, stderr) {
                 if (error) {
                     console.log("Error:",error);
@@ -77,9 +59,39 @@ fs.watchFile('response.txt', function(current, previous) {
                 }
                 console.log(stdout);
             });
-
-        });
-
+        } else {
+            requestify.post('http://6f1931b9.ngrok.io/'+url_path, {
+                search: content
+            })
+            .then(function(response) {
+                // Get the response body (JSON parsed or jQuery object for XMLs)
+                rsp = response.getBody();
+                if (response.getBody().answer) {
+                    rsp = response.getBody().answer.replace("\'", "'");
+                }
+                console.log(rsp);
+                var reply;
+                if (url_path === 'api/bot') {
+                    reply = 'say "'+rsp+'"';
+                }
+                else if (url_path === 'api/yelp') {
+                    reply = 'say "The best restaurant for you is '+rsp.name+' at '+rsp.location.display_address[0]+'"';
+                }
+                //console.log("hello");
+                //console.log(response);
+                console.log(reply);
+                console.log(rsp);
+                exec(reply, function(error, stdout, stderr) {
+                    if (error) {
+                        console.log("Error:",error);
+                    }
+                    if (stderr) {
+                        console.log("FileExecutable Error:", stderr);
+                    }
+                    console.log(stdout);
+                });
+            });
+        }
     });
     console.log('file changed');
 });
