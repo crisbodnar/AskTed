@@ -1,0 +1,163 @@
+doctype html(lang='en')
+head
+    meta(charset='utf-8')
+    |     
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    |     
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    |     
+    meta(name='description', content='')
+    |     
+    meta(name='author', content='')
+    |     
+    title Ask Nigel
+    // Bootstrap Core CSS
+    link(href='css/bootstrap.min.css', rel='stylesheet')
+    // Custom CSS
+    link(href='css/stylish-portfolio.css', rel='stylesheet')
+    // Custom Fonts
+    link(href='font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
+    |     
+    link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic', rel='stylesheet', type='text/css')
+    // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+    // WARNING: Respond.js doesn't work if you view the page via file://
+    //if lt IE 9
+      script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
+      |         
+      script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
+  body(ng-app="listen", ng-controller="ListenController as listenCtrl")
+    |     
+    header#top.header
+      .text-vertical-center
+        h1.white Ask Nigel
+        |             
+        |             
+        a(href='#talk', ng-click="listen()")
+          img.talk(ng-mouseover="changeIn()", ng-mouseleave="changeOut()", src='{{img}}') 
+    // About
+    section#about.about
+      .container
+        .row
+          .col-lg-12.text-center
+            h2 Powerful integration with the Yelp and Twilio API
+            |                     
+            p.lead
+              | Nigel is able to understand your questions and offer you restaurant suggestions using Yelp.
+              | It also sends you an SMS with the name and the address of these restaurants. Moreover, if you get bored, you can have a conversation with him.
+              | .
+        // /.row
+      // /.container
+    // Services
+    // The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/
+    section#services.services.bg-primary
+      .container
+        .row.text-center
+          .col-lg-10.col-lg-offset-1
+            h2 Our Services
+            |                     
+            hr.small
+            |                     
+            .row
+              .col-md-3.col-sm-6
+                .service-item
+                  span.fa-stack.fa-4x
+                    i.fa.fa-circle.fa-stack-2x
+                    |                                 
+                    i.fa.fa-cloud.fa-stack-1x.text-primary
+                  |                                 
+                  h4
+                    strong Yelp API
+                  |                                 
+                  p Restaurant suggestions for natural language queryes
+                  |                                 
+                  a.btn.btn-light(href='#') Learn More
+              |                         
+              .col-md-3.col-sm-6
+                .service-item
+                  span.fa-stack.fa-4x
+                    i.fa.fa-circle.fa-stack-2x
+                    |                                 
+                    i.fa.fa-compass.fa-stack-1x.text-primary
+                  |                                 
+                  h4
+                    strong Twilio API
+                  |                                 
+                  p Data from our servers, right on your phone.
+                  |                                 
+                  a.btn.btn-light(href='#') Learn More
+              |                         
+              .col-md-3.col-sm-6
+                .service-item
+                  span.fa-stack.fa-4x
+                    i.fa.fa-circle.fa-stack-2x
+                    |                                 
+                    i.fa.fa-flask.fa-stack-1x.text-primary
+                  |                                 
+                  h4
+                    strong Clever AI
+                  |                                 
+                  p Talk to Nigel. Don't be shy!
+                  |                                 
+                  a.btn.btn-light(href='#') Learn More
+              |                         
+              .col-md-3.col-sm-6
+                .service-item
+                  span.fa-stack.fa-4x
+                    i.fa.fa-circle.fa-stack-2x
+                    |                                 
+                    i.fa.fa-shield.fa-stack-1x.text-primary
+                  |                                 
+                  h4
+                    strong Speech recognition
+                  |                                 
+                  p State of the art speech recognition
+                  |                                 
+                  a.btn.btn-light(href='#') Learn More
+            // /.row (nested)
+          // /.col-lg-10
+        // /.row
+      // /.container
+    // Callout
+    // Footer
+    footer
+      .container
+        .row
+          .col-lg-10.col-lg-offset-1.text-center
+            h4
+              strong Our team
+            |                     
+            p Robert Ihnatisin, Dennis Hadjivelichkov, Mihai Visuian, Cristian Bodnar
+    // jQuery
+    script(src='js/jquery.js')
+    // Bootstrap Core JavaScript
+    script(src='js/bootstrap.min.js')
+    // Custom Theme JavaScript
+    //load angular
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js')
+    script(src='/javascripts/listen.js')
+    script.
+      // Closes the sidebar menu
+      $("#menu-close").click(function(e) {
+      e.preventDefault();
+      $("#sidebar-wrapper").toggleClass("active");
+      });
+      // Opens the sidebar menu
+      $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#sidebar-wrapper").toggleClass("active");
+      });
+      // Scrolls to the selected menu item on the page
+      $(function() {
+      $('a[href*=#]:not([href=#])').click(function() {
+      if (location.pathname.replace(/^\\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+      if (target.length) {
+      $('html,body').animate({
+      scrollTop: target.offset().top
+      }, 1000);
+      return false;
+      }
+      }
+      });
+      });
