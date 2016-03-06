@@ -41,7 +41,9 @@ fs.watchFile('response.txt', function(current, previous) {
         }
         content = data;
         var url_path = 'api/bot';
-        if (content.indexOf("drink") > -1 || content.indexOf("food") > -1) {
+        if (content.indexOf("drink") > -1 || content.indexOf("food") > -1 ||
+            content.indexOf("sushi") > -1 || content.indexOf("pizza") > -1 ||
+            content.indexOf("pasta") > -1) {
             if (content != "what\'s your favourite food" && content != "what is your favourite food") {
                 url_path = 'api/yelp';
             }
