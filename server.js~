@@ -62,7 +62,7 @@ fs.watchFile('response.txt', function(current, previous) {
                 console.log(stdout);
             });
         } else {
-            requestify.post('http://38a0777f.ngrok.io/'+url_path, {
+            requestify.post('http://26735bfc.ngrok.io'+url_path, {
                 search: content
             })
             .then(function(response) {
